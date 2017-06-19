@@ -79,7 +79,7 @@
 
     </type>
 
-    <type type="xldeploy.BulkUndeployTask" extends="xldeploy.TaskRunningTask" description="Executes a bulk undeployment in XL Deploy">
+    <type type="xldeploy.BulkUndeployTask" extends="xldeploy.TaskRunningTask" label="XL Deploy: Bulk Undeploy" description="Executes a bulk undeployment in XL Deploy">
         <property name="scriptLocation" default="xlr_xldeploy/bulkUndeployTask.py" hidden="true" />
 
         <property name="applicationFolder" category="input" label="Application Folder" required="true" description="Folder containing the Applications you want to Undeploy" />
@@ -153,7 +153,7 @@
         <property name="packageIds" category="output" kind="list_of_string" label="Package IDs"/>
     </type>
 
-    <type type="xldeploy.GetEnvironmentDeltaTask" extends="xldeploy.Task" label="Get Environment Delta" description="Finds the differences between 2 Environments">
+    <type type="xldeploy.GetEnvironmentDeltaTask" extends="xldeploy.Task" label="XL Deploy: Get Environment Delta" description="Finds the differences between 2 Environments">
         <property name="scriptLocation" default="xlr_xldeploy/getEnvironmentDelta.py" hidden="true" />
         <property name="currentEnvironment" category="input" kind="string" label="Current Environment" required="true" description="The Environment you want to amend"/>
         <property name="mirrorEnvironment" category="input" kind="string"  label="Mirror Environment" required="true" description="The Environment you want to change it to" />
@@ -162,7 +162,7 @@
         <property name="to_remove" category="output" kind="list_of_string" label="Remove" description="The Applications which need to be removed from the Current environment"/>
     </type>
 
-    <type type="xldeploy.GetCITask" extends="xldeploy.Task" label="Get CI" description="Gets a CI XML from XL Deploy">
+    <type type="xldeploy.GetCITask" extends="xldeploy.Task" label="XL Deploy: Get CI" description="Gets a CI XML from XL Deploy">
         <property name="scriptLocation" default="xlr_xldeploy/getCITask.py" hidden="true" />
         <property name="ciID" category="input" label="CI ID" required="true"/>
         <property name="accept" category="input" kind="string" label="Format" required="true" default="xml" description="What format the CI will return in, XML or JSON"/>
@@ -171,7 +171,7 @@
         <property name="response" category="output" label="CI" />
     </type>
 
-    <type type="xldeploy.RenameCITask" extends="xldeploy.Task" label="Rename CI" description="Renames a CI in XL Deploy">
+    <type type="xldeploy.RenameCITask" extends="xldeploy.Task" label="XL Deploy: Rename CI" description="Renames a CI in XL Deploy">
         <property name="scriptLocation" default="xlr_xldeploy/renameCITask.py" hidden="true" />
         <property name="ciID" category="input" label="CI ID" required="true"/>
         <property name="newName" category="input" kind="string" label="New Name" required="true" description="The new CI Name"/>
@@ -230,7 +230,7 @@
                   default="false"/>
     </type>
 
-    <type type="xldeploy.addRemoveMemberTask" extends="xldeploy.Task" label="Add/Remove Member" description="Add or Remove a Member from an Environment">
+    <type type="xldeploy.addRemoveMemberTask" extends="xldeploy.Task" label="XL Deploy: Add/Remove Member" description="Add or Remove a Member from an Environment">
         <property name="scriptLocation" default="xlr_xldeploy/addRemoveMemberTask.py" hidden="true" />
         <property name="ciID" category="input" label="Member CI ID" kind="string" required="true" description="The full ID of the Member CI" />
         <property name="envID" category="input" label="Environment ID" kind="string" required="true" description="The full ID of the Environment"/>
@@ -260,7 +260,7 @@
                   description="Value of the property to update"/>
     </type>
 
-    <type type="xldeploy.getApplicationChecklist" extends="xldeploy.Task" label="Get Application Checklist" description="Gets the current state of the deployment checklist and adds them as variables to the release">
+    <type type="xldeploy.getApplicationChecklist" extends="xldeploy.Task" label="XL Deploy: Get Application Checklist" description="Gets the current state of the deployment checklist and adds them as variables to the release">
         <property name="scriptLocation" default="xlr_xldeploy/getApplicationChecklist.py" hidden="true" />
 
         <property name="ci_id" category="input" label="Application CI ID" required="true" description="Application you wish to get the current Checklist for."/>        
