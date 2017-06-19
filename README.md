@@ -170,6 +170,15 @@ returned package ID
   * `to_add` - Return list of package IDs missing from current
   * `to_remove` - Return list of package IDs present on current which are not present on mirror
 
++ Get Application Checklist 
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `ci_ID` - ID of the Application you wish to get the checklist for
+  * `createReleaseVariables` - Boolean. If True, creates/updates variables in the release relating to the Checklist
+  * `unique` - Boolean. If True (and createReleaseVariables is True) will create variables as follows: APPLICATION_VERSION_VARIABLENAME 
+  * `variableDict` - Return map of the checklist as it currently stands for the Application
+
 + Does CI exist
   * `server` - Server to query
   * `username` - Override username
