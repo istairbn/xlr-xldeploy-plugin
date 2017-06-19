@@ -36,7 +36,7 @@ elif "Applications" not in ci_id:
 else:
     ci_xml = xld_client.get_ci(ci_id,"xml")
 
-variableDict = xld_client.get_application_checklist(ci_xml)
+variableDict = get_application_checklist(ci_xml)
 
 if createReleaseVariables:
     existingVariables = releaseApi.getVariables(release.id)
