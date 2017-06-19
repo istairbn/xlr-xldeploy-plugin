@@ -77,6 +77,20 @@ permission java.io.FilePermission "conf/logback.xml", "read";
   * `numberOfPollingTrials` (Number of times to poll for task status)
   * `failOnPause` (If checked task will fail if the deployment enters a STOPPED state, for example if the xld-pause-plugin is in use. Set to True by default for backwards compatibility)
 
++ BulkUndeployTask (compatible with XL Deploy 4.5.1 and up)
+  * `applicationFolder` - Folder containing the Applications you want to Undeploy
+  * `environment` Environment you want to undeploy from (fully qualified starting with Environments/...)
+  * `containerType` Type of Group task to be added (case sensitive): Parallel,Sequential
+  * `recurse` If True, recurses through child directories of Application Folder 
+  * `orchestrators` (Comma separated list of orchestrators to be used: `parallel-by-deployment-group, parallel-by-container`)
+  * `deployedApplicationProperties` (Dictionary containing all the deployed application properties to be set (except orchestrators). e.g.: `{"maxContainersInParallel": "2"}`)
+  * `continueIfStepFails` (Will try to continue if a step in the deployment task fails)
+  * `numberOfContinueRetrials` (Number of times to retry a step)
+  * `rollbackOnError` (Whether rollback should be done if the deployment fails)
+  * `pollingInterval` (Number of seconds to wait before polling the task status)
+  * `numberOfPollingTrials` (Number of times to poll for task status)
+  * `failOnPause` (If checked task will fail if the deployment enters a STOPPED state, for example if the xld-pause-plugin is in use. Set to True by default for backwards compatibility)
+
 + Migrate Package (compatible with XL Deploy 6.0.0 and up)
   * `server` - Server to pull a package from
   * `username` - Override source username
@@ -96,11 +110,38 @@ permission java.io.FilePermission "conf/logback.xml", "read";
   * `repositoryUsername` - Optional username for the repository
   * `repositoryPassword` - Optional password for the repository
 
++ Get CI
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `ciID` - ID of the Configuration Item wanted
+  * `accept` - Desired format of the return: XML or JSON
+  * `throwOnFail` - Boolean - If True, a False return will Fail the task rather than just returning False.
+  * `response` - Return value of the CI described in the format requested
+
++ Add/Remove Member
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `ciID` - ID of the Configuration Item you want to add or remove from the environment
+  * `envID` - The Environment you wish to affect
+  * `action` - Enum - ADD/REMOVE - Which action you wish to take
+
++ Rename CI
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `ciID` - ID of the Configuration Item you want to rename
+  * `newName` - The new name for the CI - name only, not the full path
+  * `return_type` - Hidden - JSON or XML
+
 + Get All Versions
   * `server` - Server to query
   * `username` - Override username
   * `password` - Override password
-  * `applicationId` - ID of the application to query for all package versions
+  * `applicationId` - ID of the application to query for all package versions (Note this returns all CI types, not just Applications)
+  * `recurse` - If True, returns only CIs but recurses through child directorie btarget_list_box
+  * `target_list_box` - Populates a List Box with the packageId results so users can select a package (**NOTE:** this needs to be a variable of the *listbox* type, and needs to be defined beforehand)
   * `packageId` - Return value with the all package IDs of the application (**NOTE:** this needs to be a variable of the *list* type, and needs to be defined beforehand)
 
 + Get Latest Version
@@ -119,6 +160,15 @@ permission java.io.FilePermission "conf/logback.xml", "read";
   * `applicationName` - Name of the applicaiton in the environment to get the current version of
 returned package ID
   * `applicationId` - Return value with the current application ID
+
++ Get Environment Delta (Differences between 2 Environments)
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `currentEnvironment` - ID of the environment you wish to change
+  * `mirrorEnvironment` - ID of the environment you wish to mirror
+  * `to_add` - Return list of package IDs missing from current
+  * `to_remove` - Return list of package IDs present on current which are not present on mirror
 
 + Does CI exist
   * `server` - Server to query
