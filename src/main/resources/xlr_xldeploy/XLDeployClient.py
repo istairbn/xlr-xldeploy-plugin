@@ -302,15 +302,34 @@ class XLDeployClient(object):
             latest_package = items[-1].attrib['ref']
         return latest_package
 
-    def get_all_package_version(self, application_id):
-        query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
-        query_task_response = self.http_request.get(query_task, contentType='application/xml')
-        root = ET.fromstring(query_task_response.getResponse())
-        items = root.findall('ci')
+    def get_all_package_version(self, application_id,recurse=False):
+        noMoreDirectories = False
         all_package = list()
-        for item in items:
-            all_package.append(item.attrib['ref'])
-        return all_package
+        directories = list()
+        if recurse == False:
+            query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
+            query_task_response = self.http_request.get(query_task, contentType='application/xml')
+            root = ET.fromstring(query_task_response.getResponse())
+            items = root.findall('ci')
+            for item in items:
+                all_package.append(item.attrib['ref'])
+            return all_package
+        else:
+            while noMoreDirectories == False:
+                query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
+                query_task_response = self.http_request.get(query_task, contentType='application/xml')
+                root = ET.fromstring(query_task_response.getResponse())
+                items = root.findall('ci')
+                for item in items:
+                    if item.attrib['type'] == 'core.Directory':
+                        directories.append(item.attrib['ref'])
+                    else:
+                        all_package.append(item.attrib['ref'])
+                if len(directories) >= 1:
+                    application_id = directories.pop(0)
+                else:
+                    noMoreDirectories = True
+            return all_package
 
     def get_latest_deployed_version(self, environment_id, application_name):
         query_task_response = self.get_ci("%s/%s" % (environment_id, application_name), 'xml')
@@ -372,8 +391,11 @@ class XLDeployClient(object):
         self.update_ci(env_id, xml, 'xml')
 
     def remove_ci_from_environment(self, env_id, ci_id):
-        get_env_response = self.get_ci(env_id, 'xml')
-        print get_env_response
+        if self.check_ci_exist(env_id):
+            get_env_response = self.get_ci(env_id, 'xml')
+            print get_env_response
+        else:
+            raise Exception("Did not find environment with id [%s]" % env_id)
         env_root = ET.fromstring(get_env_response)
         member_to_remove = None
         for child in env_root:
@@ -462,3 +484,35 @@ class XLDeployClient(object):
                         'application'] in deployed_apps:
                         del deployed_apps[task['metadata']['application']]
         return deployed_apps
+        
+    def get_environment_delta(self,current_environment,mirror_environment):
+        to_remove = []
+        to_add = []
+        currentSet = self.get_all_package_version(current_environment,False)
+        mirrorSet = self.get_all_package_version(mirror_environment,False)
+        currentPackages = []
+        mirrorPackages = []
+        for package in currentSet:
+            currentPackages.append(self.get_latest_deployed_version(current_environment,package.split("/")[-1]))
+        for package in mirrorSet:
+            mirrorPackages.append(self.get_latest_deployed_version(mirror_environment,package.split("/")[-1]))
+
+        for package in currentPackages:
+            if package not in mirrorPackages:
+                to_remove.append(package)
+        for package in mirrorPackages:
+            if package not in currentPackages:
+                to_add.append(package)
+        return to_add,to_remove
+
+    def get_application_checklist(self,ci_xml):
+        import xml.etree.ElementTree as ET
+        
+        root = ET.fromstring(ci_xml)
+        variableDict = {}
+        
+        for child in root:
+            if "satisfies" in child.tag:
+                variableDict[child.tag] = child.text
+        
+        return variableDict

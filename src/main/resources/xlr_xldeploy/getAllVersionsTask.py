@@ -8,7 +8,7 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
+from xldeploy.XLDeployClientUtil import XLDeployClientUtil
 
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
@@ -20,7 +20,12 @@ except:
 if throwOnFail and not response:
 	raise Exception(applicationId + " does not exist")
 
-packageIds = xld_client.get_all_package_version(applicationId)
+packageIds = xld_client.get_all_package_version(applicationId,recurse)
 
 if throwOnFail and len(packageIds) == 0:
 	raise Exception(applicationId + " exists but has no versions")
+
+if target_list_box:
+    target = getCurrentRelease().variablesByKeys[target_list_box]
+    target.valueProvider.setValues(packageIds)
+    releaseApi.updateVariable(target)
