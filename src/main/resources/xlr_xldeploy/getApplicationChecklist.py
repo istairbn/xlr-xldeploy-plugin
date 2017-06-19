@@ -11,7 +11,7 @@
 #from com.xebialabs.xlrelease.domain import *
 
 import xml.etree.ElementTree as ET
-from xldeploy.XLDeployClientUtil import XLDeployClientUtil
+from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
