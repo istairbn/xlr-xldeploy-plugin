@@ -16,7 +16,18 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
 test = xld_client.check_ci_exist(ci_id)
+
+def get_application_checklist(ci_xml):
         
+    root = ET.fromstring(ci_xml)
+    variableDict = {}
+        
+    for child in root:
+        if "satisfies" in child.tag:
+            variableDict[child.tag] = child.text
+        
+    return variableDict
+
 if not test:
     raise Exception(ci_id + " does not exist")
     
@@ -50,7 +61,7 @@ if createReleaseVariables:
             if variableDict[variable] == "true":
                 newVar.setValue(True)
             else:
-                newVar.setValue(False)            
+                newVar.setValue(False)
         else:
             newVar.setValue(variableDict[variable])
         

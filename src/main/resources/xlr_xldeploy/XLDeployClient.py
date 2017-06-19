@@ -484,7 +484,7 @@ class XLDeployClient(object):
                         'application'] in deployed_apps:
                         del deployed_apps[task['metadata']['application']]
         return deployed_apps
-        
+
     def get_environment_delta(self,current_environment,mirror_environment):
         to_remove = []
         to_add = []
@@ -504,15 +504,3 @@ class XLDeployClient(object):
             if package not in currentPackages:
                 to_add.append(package)
         return to_add,to_remove
-
-    def get_application_checklist(self,ci_xml):
-        import xml.etree.ElementTree as ET
-        
-        root = ET.fromstring(ci_xml)
-        variableDict = {}
-        
-        for child in root:
-            if "satisfies" in child.tag:
-                variableDict[child.tag] = child.text
-        
-        return variableDict
