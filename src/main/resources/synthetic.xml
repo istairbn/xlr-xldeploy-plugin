@@ -25,7 +25,7 @@
     </type>
 
     <type type="xldeploy.TaskRunningTask" extends="xldeploy.Task" virtual="true">
-        <property name="continueIfStepFails" category="input" kind="boolean"/>
+        <property name="continueIfStepFails" category="input" kind="boolean" default="false"/>
         <property name="numberOfContinueRetrials" category="input" kind="integer"/>
         <property name="pollingInterval" category="input" default="10" required="true" kind="integer"
                   description="Polling interval in seconds to check task status."/>
@@ -76,6 +76,22 @@
         <property name="failOnPause" category="input" kind="boolean" required="false" default="true"/>
         <property name="failIfApplicationDoesNotExist" category="input" kind="boolean" required="false"
                   default="false"/>
+
+    </type>
+
+    <type type="xldeploy.BulkUndeployTask" extends="xldeploy.TaskRunningTask" description="Executes a bulk undeployment in XL Deploy">
+        <property name="scriptLocation" default="xldeploy/bulkUndeployTask.py" hidden="true" />
+
+        <property name="applicationFolder" category="input" label="Application Folder" required="true" description="Folder containing the Applications you want to Undeploy" />
+        <property name="environment" category="input" label="Environment" default="" required="true" description="Environment you want to undeploy from (fully qualified starting with Environments/...)" />
+        
+        <property name="containerType" category="input" kind="string" label="Sequential or Parallel" description="Undeployment method (case sensitive): Parallel,Sequential" default="Parallel"/>
+        <property name="recurse" category="input" kind="boolean" label="Recursive" description="If True, recurses through child directories" default="true"/>
+        <property name="orchestrators" category="input" label="Orchestrators" default="" required="false" />
+        <property name="deployedApplicationProperties" category="input" default="" required="false" description="A dictionary with key value pairs" />
+        <property name="rollbackOnError" category="input" kind="boolean" required="false" description="Perform rollback in XL Deploy if the task fails."/>
+        <property name="cancelOnError" category="input" kind="boolean" required="false" label="Cancel If Not Rollbacking" default="true" description="Cancel the task in XL Deploy if the tasks fails and Rollback On Error is not selected."/>
+        <property name="failOnPause" category="input" kind="boolean" required="false" default="true" />
 
     </type>
 
@@ -131,8 +147,40 @@
         <!-- <property name="stripApplications" category="input" kind="boolean" /> -->
         <property name="throwOnFail" category="input" kind="boolean" label="Throw on Fail"
                   description="If True, the Task will fail if the CI doesn't exist" default="false"/>
+        <property name="recurse" category="input" kind="boolean" label="Recursive" description="If True, recurses through child directories" default="false"/>
+        <property name="target_list_box" category="input" kind="string" label="List Box" description="If you wish to populate a List Box, provide the existing release variable name here (without ${ or })"/>
 
         <property name="packageIds" category="output" kind="list_of_string" label="Package IDs"/>
+    </type>
+
+    <type type="xldeploy.GetEnvironmentDeltaTask" extends="xldeploy.Task" label="Get Environment Delta" description="Finds the differences between 2 Environments">
+        <property name="scriptLocation" default="xldeploy/getEnvironmentDelta.py" hidden="true" />
+        <property name="currentEnvironment" category="input" kind="string" label="Current Environment" required="true" description="The Environment you want to amend"/>
+        <property name="mirrorEnvironment" category="input" kind="string"  label="Mirror Environment" required="true" description="The Environment you want to change it to" />
+
+        <property name="to_add" category="output" kind="list_of_string" label="Add" description="The Applications missing from the Current Environment"/>
+        <property name="to_remove" category="output" kind="list_of_string" label="Remove" description="The Applications which need to be removed from the Current environment"/>
+    </type>
+
+    <type type="xldeploy.GetCITask" extends="xldeploy.Task" label="Get CI" description="Gets a CI XML from XL Deploy">
+        <property name="scriptLocation" default="xldeploy/getCITask.py" hidden="true" />
+        <property name="ciID" category="input" label="CI ID" required="true"/>
+        <property name="accept" category="input" kind="string" label="Format" required="true" default="xml" description="What format the CI will return in, XML or JSON"/>
+        <property name="throwOnFail" category="input" kind="boolean" label="Throw on Fail" description="If True, the Task will fail if the CI doesn't exist" default="false"/>
+
+        <property name="response" category="output" label="CI" />
+    </type>
+
+    <type type="xldeploy.RenameCITask" extends="xldeploy.Task" label="Rename CI" description="Renames a CI in XL Deploy">
+        <property name="scriptLocation" default="xldeploy/renameCITask.py" hidden="true" />
+        <property name="ciID" category="input" label="CI ID" required="true"/>
+        <property name="newName" category="input" kind="string" label="New Name" required="true" description="The new CI Name"/>
+        <property name="return_type" category="input" kind="enum" label="Return Type" hidden="true" default="json" required="true" description="Return type of response">
+        <enum-values>
+                <value>json</value>
+                <value>xml</value>
+            </enum-values>
+        </property>
     </type>
 
     <type type="xldeploy.GetLastVersionDeployedTask" label="XL Deploy: Get last deployed version"
@@ -182,6 +230,18 @@
                   default="false"/>
     </type>
 
+    <type type="xldeploy.addRemoveMemberTask" extends="xldeploy.Task" label="Add/Remove Member" description="Add or Remove a Member from an Environment">
+        <property name="scriptLocation" default="xldeploy/addRemoveMemberTask.py" hidden="true" />
+        <property name="ciID" category="input" label="Member CI ID" kind="string" required="true" description="The full ID of the Member CI" />
+        <property name="envID" category="input" label="Environment ID" kind="string" required="true" description="The full ID of the Environment"/>
+        <property name="action" category="input" label="Action" kind="enum" required="true" description="Do you wish to add or remove a member?">
+            <enum-values>
+                <value>ADD</value>
+                <value>REMOVE</value>
+            </enum-values>
+        </property>
+    </type>
+
     <type type="xldeploy.DeleteInfrastructure" extends="xldeploy.Task" label="XL Deploy: Delete Infrastructure"
           description="Deletes specified Infrastructure removing all dependencies on it beforehand.">
         <property name="scriptLocation" default="xlr_xldeploy/deleteInfrastructureTask.py" hidden="true"/>
@@ -198,6 +258,16 @@
                   description="Name of the property to update"/>
         <property name="propertyValue" category="input" label="Property value" required="true"
                   description="Value of the property to update"/>
+    </type>
+
+    <type type="xldeploy.getApplicationChecklist" extends="xldeploy.Task" label="Get Application Checklist" description="Gets the current state of the deployment checklist and adds them as variables to the release">
+        <property name="scriptLocation" default="xldeploy/getApplicationChecklist.py" hidden="true" />
+
+        <property name="ci_id" category="input" label="Application CI ID" required="true" description="Application you wish to get the current Checklist for."/>        
+        <property name="createReleaseVariables" category="input" kind="boolean" label="Create Release Variables" description="Create Release Variables for use in the current release" default="false"/>
+        <property name="unique" category="input" kind="boolean" label="Unique" description="Prepend the variable name with the application and version" default="true"/>
+                
+        <property name="variableDict" category="output" kind="map_string_string" label="Checklist Variables" description="The checklist added from the variable" />
     </type>
 
     <type type="xldeploy.CliConfig" label="XL Deploy CLI config" extends="xlrelease.Configuration">
