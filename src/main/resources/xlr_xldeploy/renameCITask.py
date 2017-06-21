@@ -13,11 +13,7 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
 existCheck = False
-
-try:
-    existCheck = xld_client.check_ci_exist(ciID)
-except:
-    print("Exist Check Failed")
+existCheck = xld_client.check_ci_exist(ciID)
 
 if not existCheck:
     raise Exception("The requested CI does not exist")

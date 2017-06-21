@@ -18,7 +18,7 @@ xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username,
 test = xld_client.check_ci_exist(ci_id)
 
 def get_application_checklist(ci_xml):
-        
+
     root = ET.fromstring(ci_xml)
     variableDict = {}
         
