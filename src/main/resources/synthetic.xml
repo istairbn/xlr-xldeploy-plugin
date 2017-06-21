@@ -161,6 +161,15 @@
         <property name="to_add" category="output" kind="list_of_string" label="Add" description="The Applications missing from the Current Environment"/>
         <property name="to_remove" category="output" kind="list_of_string" label="Remove" description="The Applications which need to be removed from the Current environment"/>
     </type>
+    
+    <type type="xldeploy.GetEnvironmentHostsTask" extends="xldeploy.Task" label="XL Deploy: Get Environment Hosts" description="Finds the hosts within an environment">
+        <property name="scriptLocation" default="xlr_xldeploy/getEnvironmentHosts.py" hidden="true" />
+        <property name="ciID" category="input" kind="string" label="Environment" required="true" description="The Environment you want to get the hosts for"/>
+        <property name="tags_to_check" category="input" kind="list_of_string" label="Tags" required="false" description="Which Tags should be applied to the hosts. Leave blank for all hosts."/>
+
+        <property name="host_list" category="output" kind="list_of_string" label="List" description="A list of hosts"/>
+        <property name="host_dict" category="output" kind="map_string_string" label="Map" description="A map of hosts and their XL Deploy CI IDs."/>
+    </type>
 
     <type type="xldeploy.GetCITask" extends="xldeploy.Task" label="XL Deploy: Get CI" description="Gets a CI XML from XL Deploy">
         <property name="scriptLocation" default="xlr_xldeploy/getCITask.py" hidden="true" />
@@ -325,7 +334,7 @@
 
         <property name="xldeployServer" category="input" label="Server" referenced-type="xldeploy.XLDeployServer"
                   kind="ci"/>
-        <property name="username" category="input" required="false"/>
+        <property name="username" category="input" required="false" description="The username in the format accepted by XL Deploy (case sensitive) e.g. admin"/>
         <property name="password" password="true" category="input" required="false"/>
         <property name="environment" category="input"
                   description="Name of the environment to check for deployed applications (For example: Environments/TST)"
