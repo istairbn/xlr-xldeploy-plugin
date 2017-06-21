@@ -11,7 +11,7 @@
 from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
-	
+
 try:
     response = xld_client.check_ci_exist(applicationId)
 except:
