@@ -325,8 +325,6 @@
         <property name="options" category="input" default=""/>
     </type>
 
-    <type type="xldeploy.Server" extends="configuration.HttpConnection"/>
-
     <type type="xldeploy.XLDVersionsTile" label="XLD Version Tile" extends="xlrelease.Tile">
         <property name="scriptLocation" default="xlr_xldeploy/XLDVersionsTile.py" kind="string" hidden="true"/>
         <property name="uri" hidden="true" default="include/XLDVersionsTile/xld-versions-tile-view.html"/>
