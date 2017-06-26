@@ -21,7 +21,7 @@ def get_application_checklist(ci_xml):
 
     root = ET.fromstring(ci_xml)
     variableDict = {}
-        
+
     for child in root:
         if "satisfies" in child.tag:
             variableDict[child.tag] = child.text

@@ -20,7 +20,7 @@ if not test:
 
 else:
     environmentJson = xld_client.get_ci(ciID,'json')
-    
+
 environment = json.loads(environmentJson)
 members = environment["members"]
 host_dict = {}
