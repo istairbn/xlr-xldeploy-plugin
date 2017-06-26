@@ -102,7 +102,7 @@ class Localcliscript():
       connection = None
       try:
          connection = LocalConnection.getLocalConnection()
-         scriptFile = self.script 
+         scriptFile = self.script
          print "using script %s" % ( scriptFile )
          #scriptFile.setExecutable(True)
          self.cmdLine.addArgument( '-source' )

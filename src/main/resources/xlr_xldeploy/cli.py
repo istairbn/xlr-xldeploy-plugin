@@ -28,7 +28,7 @@ else:
    print output
    print "### Error stream:"
    print err
-   print 
+   print
    print "----"
 
 sys.exit(exitCode)

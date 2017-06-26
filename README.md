@@ -170,6 +170,15 @@ returned package ID
   * `to_add` - Return list of package IDs missing from current
   * `to_remove` - Return list of package IDs present on current which are not present on mirror
 
++ Get Environment Hosts 
+  * `server` - Server to query
+  * `ciID` - Environment you wish to poll
+  * `username` - Override username
+  * `password` - Override password
+  * `tags_to_check` - List of Tags, which you want the hosts for. If left blank, will return all hosts.
+  * `host_list` - List of all hostnames
+  * `host_dict` - Map of CI IDs and Hostnames
+
 + Get Application Checklist 
   * `server` - Server to query
   * `username` - Override username

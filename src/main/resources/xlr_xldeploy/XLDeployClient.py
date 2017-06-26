@@ -410,7 +410,7 @@ class XLDeployClient(object):
             env_members.remove(member_to_remove)
             self.update_ci(env_id, ET.tostring(env_root), 'xml')
 
-    def get_ci(self, ci_id, accept):
+    def get_ci(self, ci_id, accept="xml"):
         get_ci = "/deployit/repository/ci/%s" % ci_id
         headers = {'Accept': 'application/%s' % accept, 'Content-Type': 'application/%s' % accept}
         response = self.http_request.get(get_ci, headers=headers)
