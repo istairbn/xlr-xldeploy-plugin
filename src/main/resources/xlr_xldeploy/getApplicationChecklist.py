@@ -25,12 +25,12 @@ def get_application_checklist(ci_xml):
     for child in root:
         if "satisfies" in child.tag:
             variableDict[child.tag] = child.text
-        
+
     return variableDict
 
 if not test:
     raise Exception(ci_id + " does not exist")
-    
+
 elif "Applications" not in ci_id:
     raise Exception(ci_id + "is not an application")
 else:
@@ -52,11 +52,11 @@ if createReleaseVariables:
             varName = applicationName + "_" + variable
         else:
             varName = variable
-            
+
         newVar = Variable(varName,None,False)
-        
+
         if variableDict[variable] == "true" or variableDict[variable] == "false":
-            
+
             newVar.setType("xlrelease.BooleanVariable")
             if variableDict[variable] == "true":
                 newVar.setValue(True)
@@ -64,9 +64,9 @@ if createReleaseVariables:
                 newVar.setValue(False)
         else:
             newVar.setValue(variableDict[variable])
-        
+
         if varName in existingkeys:
             print("%s already exists, removing and replacing" % (varName))
             releaseApi.deleteVariable(str(existingkeys[varName]))
-            
+
         releaseApi.createVariable(release.id,newVar)

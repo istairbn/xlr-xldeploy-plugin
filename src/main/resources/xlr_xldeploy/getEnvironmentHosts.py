@@ -32,7 +32,7 @@ for member_id in members:
     memberJson = memberJson.replace("\\", "//")
     member = json.loads(memberJson)
     valid_host = False
-    
+
     if "Host" in member["type"]:
         if not tags_to_check:
             valid_host = True
@@ -48,13 +48,13 @@ for member_id in members:
             print("%s is a valid host" % (member_id))
             host_dict[member_id] = member["address"]
             host_list.append(member["address"])
-        
+
         else:
             print("%s is not a valid host" % (member_id))
-    
+
     else:
         print("%s is not a host" % (member_id))
-    
+
 
 print(host_dict)
 print(host_list)
