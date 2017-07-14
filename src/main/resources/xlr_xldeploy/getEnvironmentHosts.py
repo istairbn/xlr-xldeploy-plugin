@@ -20,8 +20,12 @@ if not test:
 
 else:
     environmentJson = xld_client.get_ci(ciID,'json')
-
+    
 environment = json.loads(environmentJson)
+
+if not environment["type"] == "udm.Environment":
+    raise Exception("%s is not udm.Environment, it is %s. Please select an Environment" % (ciID,environment["type"]))
+    
 members = environment["members"]
 host_dict = {}
 host_list = []
