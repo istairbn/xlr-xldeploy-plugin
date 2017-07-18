@@ -344,5 +344,17 @@
                   description="Date in format yyyy-MM-dd. If not provided, latest deployed applications are shown."/>
 
     </type>
+    
+    <!-- Trigger -->
+    
+    <type type="xldeploy.applicationTrigger" label="XL Deploy: New Application Version" extends="xlrelease.ReleaseTrigger" >
+    	<property name="scriptLocation" default="xlr_xldeploy/applicationTrigger.py" kind="string" hidden="true"/>
+        <property name="xldeployServer" category="XL Deploy" label="XL Deploy Server" referenced-type="xldeploy.XLDeployServer" kind="ci"/>
+        <property name="applicationId" category="XL Deploy" kind="string" required="true" description="Which Application should be monitored" />
+        <property name="username" category="XL Deploy" kind="string" default="" required="true" description="Username used to connect to XL Deploy"/>
+        <property name="password" category="XL Deploy" kind="string" default="" required="true" password="true" description="Password used to connect to XL Deploy"/>
+
+        <property name="packageId" category="variables" kind="string" label="Application ID" required="false" description="CI ID of latest version of the Application"/>
+    </type>
 
 </synthetic>

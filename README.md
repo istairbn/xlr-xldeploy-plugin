@@ -223,6 +223,12 @@ returned package ID
   * `username` - Override username
   * `password` - Override password
   * `ci_id` - Fully qualified id from the Infrastructure CI to delete
+  
++ Application Trigger - This triggers a Release whenever a new version of an Application lands in XL Deploy. 
+  * `server` - Server to query
+  * `username` - Override username
+  * `password` - Override password
+  * `applicationId` - Fully qualified id from the Application CI to monitor
 
 + CLI Config (Global Configuration)
   * `CLI Home` - Home directory where XL Deploy CLI is installed
