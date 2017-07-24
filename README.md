@@ -225,6 +225,7 @@ returned package ID
   * `ci_id` - Fully qualified id from the Infrastructure CI to delete
   
 + Application Trigger - This triggers a Release whenever a new version of an Application lands in XL Deploy. 
+  This uses the "Latest Version" as defined by XL Deploy.
   * `server` - Server to query
   * `username` - Override username
   * `password` - Override password
