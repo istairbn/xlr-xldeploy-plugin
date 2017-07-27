@@ -87,7 +87,7 @@
     <type type="xldeploy.BulkUndeployTask" extends="xldeploy.TaskRunningTask" label="XL Deploy: Bulk Undeploy" description="Executes a bulk undeployment in XL Deploy">
         <property name="scriptLocation" default="xlr_xldeploy/bulkUndeployTask.py" hidden="true" />
 
-        <property name="applicationFolder" category="input" label="Application Folder" required="true" description="Folder containing the Applications you want to Undeploy" />
+        <property name="application_folder" category="input" label="Application Folder" required="true" description="Folder containing the Applications you want to Undeploy" />
         <property name="environment" category="input" label="Environment" default="" required="true" description="Environment you want to undeploy from (fully qualified starting with Environments/...)" />
         
         <property name="containerType" category="input" kind="string" label="Sequential or Parallel" description="Undeployment method (case sensitive): Parallel,Sequential" default="Parallel"/>
@@ -160,8 +160,8 @@
 
     <type type="xldeploy.GetEnvironmentDeltaTask" extends="xldeploy.Task" label="XL Deploy: Get Environment Delta" description="Finds the differences between 2 Environments">
         <property name="scriptLocation" default="xlr_xldeploy/getEnvironmentDelta.py" hidden="true" />
-        <property name="currentEnvironment" category="input" kind="string" label="Current Environment" required="true" description="The Environment you want to amend"/>
-        <property name="mirrorEnvironment" category="input" kind="string"  label="Mirror Environment" required="true" description="The Environment you want to change it to" />
+        <property name="current_environment" category="input" kind="string" label="Current Environment" required="true" description="The Environment you want to amend"/>
+        <property name="mirror_environment" category="input" kind="string"  label="Mirror Environment" required="true" description="The Environment you want to change it to" />
 
         <property name="to_add" category="output" kind="list_of_string" label="Add" description="The Applications missing from the Current Environment"/>
         <property name="to_remove" category="output" kind="list_of_string" label="Remove" description="The Applications which need to be removed from the Current environment"/>
@@ -251,8 +251,8 @@
 
     <type type="xldeploy.addRemoveMemberTask" extends="xldeploy.Task" label="XL Deploy: Add/Remove Member" description="Add or Remove a Member from an Environment">
         <property name="scriptLocation" default="xlr_xldeploy/addRemoveMemberTask.py" hidden="true" />
-        <property name="ciID" category="input" label="Member CI ID" kind="string" required="true" description="The full ID of the Member CI" />
-        <property name="envID" category="input" label="Environment ID" kind="string" required="true" description="The full ID of the Environment"/>
+        <property name="ci_Id" category="input" label="Member CI ID" kind="string" required="true" description="The full ID of the Member CI" />
+        <property name="environment_Id" category="input" label="Environment ID" kind="string" required="true" description="The full ID of the Environment"/>
         <property name="action" category="input" label="Action" kind="enum" required="true" description="Do you wish to add or remove a member?">
             <enum-values>
                 <value>ADD</value>
@@ -352,11 +352,11 @@
     <type type="xldeploy.applicationTrigger" label="XL Deploy: New Application Version" extends="xlrelease.ReleaseTrigger" >
     	<property name="scriptLocation" default="xlr_xldeploy/applicationTrigger.py" kind="string" hidden="true"/>
         <property name="xldeployServer" category="XL Deploy" label="XL Deploy Server" referenced-type="xldeploy.XLDeployServer" kind="ci"/>
-        <property name="applicationId" category="XL Deploy" kind="string" required="true" description="Which Application should be monitored" />
+        <property name="application_Id" category="XL Deploy" kind="string" required="true" description="Which Application should be monitored" />
         <property name="username" category="XL Deploy" kind="string" default="" required="true" description="Username used to connect to XL Deploy"/>
         <property name="password" category="XL Deploy" kind="string" default="" required="true" password="true" description="Password used to connect to XL Deploy"/>
 
-        <property name="packageId" category="variables" kind="string" label="Application ID" required="false" description="CI ID of latest version of the Application"/>
+        <property name="package_Id" category="variables" kind="string" label="Application ID" required="false" description="CI ID of latest version of the Application"/>
     </type>
 
 </synthetic>

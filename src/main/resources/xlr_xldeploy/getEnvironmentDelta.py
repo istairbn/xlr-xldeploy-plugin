@@ -12,10 +12,10 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
-response1 = xld_client.check_ci_exist(currentEnvironment)
-response2 = xld_client.check_ci_exist(mirrorEnvironment)
+response1 = xld_client.check_ci_exist(current_environment)
+response2 = xld_client.check_ci_exist(mirror_environment)
 
 if not response1 or not response2:
     raise Exception("Environment does not exist")
 
-to_add,to_remove = xld_client.get_environment_delta(currentEnvironment,mirrorEnvironment)
+to_add,to_remove = xld_client.get_environment_delta(current_environment,mirror_environment)

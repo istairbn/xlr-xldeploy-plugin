@@ -13,19 +13,19 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 throwOnFail = not continueIfStepFails
 
-appCheck = xld_client.check_ci_exist(applicationFolder)
-envCheck = xld_client.check_ci_exist(environment)
+app_check = xld_client.check_ci_exist(application_folder)
+env_check = xld_client.check_ci_exist(environment)
 
 if throwOnFail:
-    if not appCheck or not envCheck:
-        raise ValueError("Check existence of " + environment + " and " + applicationFolder)
+    if not app_check or not env_check:
+        raise ValueError("Check existence of " + environment + " and " + application_folder)
 
-packageIds = xld_client.get_all_package_version(applicationFolder,recurse)
+package_ids = xld_client.get_all_package_version(application_folder,recurse)
 
-if throwOnFail and len(packageIds) == 0:
-    raise ValueError(applicationFolder + " exists but has no versions")
+if throwOnFail and len(package_ids) == 0:
+    raise ValueError(application_folder + " exists but has no versions")
 
-def createUndeployTask(phaseId,title,precondition, propertyMap):
+def create_undeploy_task(phaseId,title,precondition, propertyMap):
 
     parenttaskType = Type.valueOf("xlrelease.CustomScriptTask")
     parentTask = parenttaskType.descriptor.newInstance("nonamerequired")
@@ -38,7 +38,7 @@ def createUndeployTask(phaseId,title,precondition, propertyMap):
     parentTask.setPrecondition(precondition)
     taskApi.addTask(phaseId,parentTask)
 
-def createContainerTask(phaseId,title,precondition,propertyMap,containerType):
+def create_container_task(phaseId,title,precondition,propertyMap,containerType):
     containertaskType = Type.valueOf("xlrelease."+containerType+"Group")
     containertask = containertaskType.descriptor.newInstance("nonamerequired")
     containertask.setTitle(title)
@@ -47,14 +47,14 @@ def createContainerTask(phaseId,title,precondition,propertyMap,containerType):
     return containertask.id
 
 needed = True
-for elem in packageIds:
-    packageName = elem.split("/")[-1]
-    package = environment +"/"+ packageName
+for package_id in package_ids:
+    package_name = package_id.split("/")[-1]
+    package = environment +"/"+ package_name
     if xld_client.check_ci_exist(package):
         if needed:
-            mynewtask = createContainerTask(phase.id,task.title,None,{},containerType)
+            new_task = create_container_task(phase.id,task.title,None,{},containerType)
             needed = False
-        print(packageName + " is deployed on "+ environment +"\n")
-        createUndeployTask(mynewtask,packageName,None,{'username':username,'password':password,'deployedApplication':packageName,'environment':environment,'deployedApplicationProperties':deployedApplicationProperties,'orchestrators':orchestrators,'failOnPause':failOnPause,'rollbackOnError':rollbackOnError,'cancelOnError':cancelOnError})
+        print(package_name + " is deployed on "+ environment +"\n")
+        create_undeploy_task(new_task,package_name,None,{'username':username,'password':password,'deployedApplication':package_name,'environment':environment,'deployedApplicationProperties':deployedApplicationProperties,'orchestrators':orchestrators,'failOnPause':failOnPause,'rollbackOnError':rollbackOnError,'cancelOnError':cancelOnError})
     else:
-        print(packageName + " is not deployed on "+ environment +"\n")
+        print(package_name + " is not deployed on "+ environment +"\n")

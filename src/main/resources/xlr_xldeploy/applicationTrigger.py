@@ -12,14 +12,14 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
-response = xld_client.check_ci_exist(applicationId,True)
+response = xld_client.check_ci_exist(application_Id,True)
 
 if not response:
-    raise Exception("%s does not exist" % (applicationId))
+    raise Exception("%s does not exist" % (application_Id))
 
-packageId = xld_client.get_latest_package_version(applicationId)
+package_Id = xld_client.get_latest_package_version(application_Id)
 
-if packageId == "":
-    raise Exception("%s exists but has no versions" % (applicationId))
+if package_Id == "":
+    raise Exception("%s exists but has no versions" % (application_Id))
 
-triggerState = packageId
+triggerState = package_Id

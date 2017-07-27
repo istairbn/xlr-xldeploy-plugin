@@ -13,8 +13,8 @@ from xlr_xldeploy.XLDeployClientUtil import XLDeployClientUtil
 xld_client = XLDeployClientUtil.create_xldeploy_client(xldeployServer, username, password)
 
 if action == "ADD":
-    xld_client.add_ci_to_environment(envID,ciID)
+    xld_client.add_ci_to_environment(environment_Id,ci_Id)
 elif action == "REMOVE":
-    xld_client.remove_ci_from_environment(envID,ciID)
+    xld_client.remove_ci_from_environment(environment_Id,ci_Id)
 else:
     raise Exception("Invalid Action: [%s]" % action)

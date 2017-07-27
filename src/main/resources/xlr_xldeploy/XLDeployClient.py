@@ -491,19 +491,19 @@ class XLDeployClient(object):
     def get_environment_delta(self,current_environment,mirror_environment):
         to_remove = []
         to_add = []
-        currentSet = self.get_all_package_version(current_environment,False)
-        mirrorSet = self.get_all_package_version(mirror_environment,False)
-        currentPackages = []
-        mirrorPackages = []
-        for package in currentSet:
-            currentPackages.append(self.get_latest_deployed_version(current_environment,package.split("/")[-1]))
-        for package in mirrorSet:
-            mirrorPackages.append(self.get_latest_deployed_version(mirror_environment,package.split("/")[-1]))
+        current_set = self.get_all_package_version(current_environment,False)
+        mirror_set = self.get_all_package_version(mirror_environment,False)
+        current_packages = []
+        mirror_packages = []
+        for package in current_set:
+            current_packages.append(self.get_latest_deployed_version(current_environment,package.split("/")[-1]))
+        for package in mirror_set:
+            mirror_packages.append(self.get_latest_deployed_version(mirror_environment,package.split("/")[-1]))
 
-        for package in currentPackages:
-            if package not in mirrorPackages:
+        for package in current_packages:
+            if package not in mirror_packages:
                 to_remove.append(package)
-        for package in mirrorPackages:
-            if package not in currentPackages:
+        for package in mirror_packages:
+            if package not in current_packages:
                 to_add.append(package)
         return to_add,to_remove
