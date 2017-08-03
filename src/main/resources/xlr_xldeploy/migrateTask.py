@@ -59,7 +59,7 @@ if not application_exists_on_destination:
 
         else:
             print("One or more containing folders missing from %s" % (app_folder) )
-            xld_destination_client.create_folder_tree(app_folder, "Applications")
+            xld_destination_client.create_folder_tree(app_folder, "")
             xld_destination_client.create_application(app_path)
 
     else:
