@@ -1,4 +1,4 @@
-# Preface #
+﻿# Preface #
 
 This document describes the functionality provided by the xlr-xldeploy-plugin.
 
@@ -101,8 +101,8 @@ permission java.io.FilePermission "conf/logback.xml", "read";
   * `destinationServer` - Server to pull package to
   * `destinationUsername` - Override destination username
   * `destinationPassword` - Override destination password
-  * `deploymentPackage` - ID of the package to migrate (starting with `Applications/`)
-  * `autoCreatePath` - If set the task will automatically create the path and application if it doesn't exist in the destination
+  * `deploymentPackage` - ID of the package in the source instance to migrate (starting with `Applications/`)
+  * `autoCreatePath` - If set the task will automatically create a matching path and application on the destination instance if the application doesn't exist in the destination
   * `idempotent` - If True and `deploymentPackage` exists on `destinationServer`, it will be overwritten. If false, it will error.
 
 + Import Package
