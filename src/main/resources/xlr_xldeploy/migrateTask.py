@@ -34,18 +34,18 @@ app_version = deploymentPackage.rpartition('/')[2]
 app_name = app_path.rpartition('/')[2]
 app_folder = app_path.rpartition('/')[0]
 application_exists_on_destination = False
-destination_package = ""
+destination_package = deploymentPackage
 
 if xld_destination_client.check_ci_exist(app_path):
     print("%s exists on destination server" % (app_path) )
     application_exists_on_destination = True
-    destination_package = deploymentPackage
 
 else:
     destination_applications = xld_destination_client.get_all_package_version("Applications",True)
 
     for application in destination_applications:
         if app_name == application.rpartition('/')[2]:
+            print("%s exists on destination server" % (application) )
             application_exists_on_destination = True
             destination_package = "%s/%s" % (application,app_version)
 
@@ -54,12 +54,12 @@ if not application_exists_on_destination:
     if autoCreatePath:
 
         if xld_destination_client.check_ci_exist(app_folder):
-            print("%s exists on destination server, but no application named %s is present" % app_folder,app_name)
+            print("%s exists on destination server, but no application named %s is present" % (app_folder,app_name) )
             xld_destination_client.create_application(app_path)
 
         else:
             print("One or more containing folders missing from %s" % (app_folder) )
-            xld_destination_client.create_folder_tree(app_folder, "")
+            xld_destination_client.create_folder_tree(app_folder.partition("/")[2], app_folder.partition("/")[0])
             xld_destination_client.create_application(app_path)
 
     else:
