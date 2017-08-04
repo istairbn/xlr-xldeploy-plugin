@@ -102,7 +102,7 @@ permission java.io.FilePermission "conf/logback.xml", "read";
   * `destinationUsername` - Override destination username
   * `destinationPassword` - Override destination password
   * `deploymentPackage` - ID of the package in the source instance to migrate (starting with `Applications/`)
-  * `autoCreatePath` - If set the task will automatically create a matching path and application on the destination instance if the application doesn't exist in the destination
+  * `autoCreatePath` - If set the task will automatically create a matching path and application on the destination instance if the application doesn't exist in the destination. It will not force the application to the same path if a pre-existing application with the same name exists. 
   * `idempotent` - If True and `deploymentPackage` exists on `destinationServer`, it will be overwritten. If false, it will error.
 
 + Import Package
