@@ -1,9 +1,8 @@
 plugins {
   id "com.github.hierynomus.license" version "0.14.0"
   id "com.xebialabs.xl.docker" version "1.1.0"
+  id "nebula.release" version "6.0.0"
 }
-
-version = "3.2.2"
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -12,7 +11,7 @@ apply plugin: 'maven'
 
 xlDocker {
   compileImage = 'xebialabs/xlr_dev_compile'
-  compileVersion = 'v7.0.1.1'
+  compileVersion = 'v7.0.1.2'
   runImage = 'xebialabs/xlr_dev_run'
   runVersion = 'v7.0.1.1'
   runPortMapping = '15516:5516'
