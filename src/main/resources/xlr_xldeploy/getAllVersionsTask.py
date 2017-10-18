@@ -24,3 +24,8 @@ packageIds = xld_client.get_all_package_version(applicationId)
 
 if throwOnFail and len(packageIds) == 0:
 	raise Exception(applicationId + " exists but has no versions")
+
+if target_list_box:
+    target = getCurrentRelease().variablesByKeys[target_list_box]
+    target.valueProvider.setValues(packageIds)
+    releaseApi.updateVariable(target)
