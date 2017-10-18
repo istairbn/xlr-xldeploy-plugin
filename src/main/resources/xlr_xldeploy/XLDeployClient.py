@@ -303,15 +303,34 @@ class XLDeployClient(object):
             latest_package = items[-1].attrib['ref']
         return latest_package
 
-    def get_all_package_version(self, application_id):
-        query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
-        query_task_response = self.http_request.get(query_task, contentType='application/xml')
-        root = ET.fromstring(query_task_response.getResponse())
-        items = root.findall('ci')
+    def get_all_package_version(self, application_id,recurse=False):
+        noMoreDirectories = False
         all_package = list()
-        for item in items:
-            all_package.append(item.attrib['ref'])
-        return all_package
+        directories = list()
+        if recurse == False:
+            query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
+            query_task_response = self.http_request.get(query_task, contentType='application/xml')
+            root = ET.fromstring(query_task_response.getResponse())
+            items = root.findall('ci')
+            for item in items:
+                all_package.append(item.attrib['ref'])
+            return all_package
+        else:
+            while noMoreDirectories == False:
+                query_task = "/deployit/repository/query?parent=%s&resultsPerPage=-1" % application_id
+                query_task_response = self.http_request.get(query_task, contentType='application/xml')
+                root = ET.fromstring(query_task_response.getResponse())
+                items = root.findall('ci')
+                for item in items:
+                    if item.attrib['type'] == 'core.Directory':
+                        directories.append(item.attrib['ref'])
+                    else:
+                        all_package.append(item.attrib['ref'])
+                if len(directories) >= 1:
+                    application_id = directories.pop(0)
+                else:
+                    noMoreDirectories = True
+            return all_package
 
     def get_latest_deployed_version(self, environment_id, application_name):
         query_task_response = self.get_ci("%s/%s" % (environment_id, application_name), 'xml')
