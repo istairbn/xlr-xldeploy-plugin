@@ -134,8 +134,9 @@
         <property name="scriptLocation" default="xlr_xldeploy/getAllVersionsTask.py" hidden="true"/>
         <property name="applicationId" category="input" label="Application ID" required="true"/>
         <!-- <property name="stripApplications" category="input" kind="boolean" /> -->
-        <property name="throwOnFail" category="input" kind="boolean" label="Throw on Fail"
-                  description="If True, the Task will fail if the CI doesn't exist" default="false"/>
+        <property name="throwOnFail" category="input" kind="boolean" label="Throw on Fail" description="If True, the Task will fail if the CI doesn't exist" default="false"/>
+        <property name="recurse" category="input" kind="boolean" label="Recursive" description="If True, recurses through child directories" default="false"/>
+        <property name="target_list_box" category="input" kind="string" label="List Box" description="If you wish to populate a List Box, provide the existing release variable name here (without ${ or })"/>
 
         <property name="packageIds" category="output" kind="list_of_string" label="Package IDs"/>
     </type>
